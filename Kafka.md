@@ -1,0 +1,11 @@
+# Kafka
+
+## [Is Apache Kafka a Database?](https://www.confluent.io/blog/is-kafka-a-database-with-ksqldb/)
+
+| **Aspect**                | **Kafka**                                                                                                                                          | **Traditional Database**                                                                                                     |
+|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| **Data Model & Storage**  | Distributed, immutable log of events. Data is append-only and managed via retention policies (e.g., by time or size).                                | Designed to store and manage the current state of data. Supports CRUD operations with modifications and deletions.           |
+| **Primary Purpose**       | Enables real-time data streaming and event-driven architectures. Excels at decoupling systems and handling high-throughput event ingestion.         | Serves as the system of record for applications. Optimized for ad-hoc queries, transactions, and random data access.         |
+| **Querying & Processing** | Provides SQL-like querying capabilities (via ksqlDB) for continuous, real-time stream processing. Emphasizes processing events over time.           | Supports complex, ad-hoc queries, joins, and aggregations on static data. Offers robust transactional and indexing features.|
+| **Data Representation**   | Event-sourced: captures a full history of changes as events, making replayability and auditing straightforward.                                      | Represents the current state; historical changes are not inherently stored unless explicitly managed (e.g., via change data capture). |
+| **Use Cases**             | Ideal for event sourcing, stream processing, auditing, change data capture, and real-time analytics.                                               | Suited for OLTP applications, static reporting, and analytical queries where data consistency and state are key.             |
