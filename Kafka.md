@@ -12,3 +12,12 @@
 | **Key/Index Assignment**    | Keys and indexes are assigned at the table or document level, providing a single, efficient way to reference a record.                                               | Keys are assigned at the individual message level. Each message carries its own key, and the same key can appear in multiple messages across partitions.                              |
 | **Fast Lookup Mechanism**   | Utilizes fast index scans to quickly retrieve one or more records based on a key or index.                                                                         | Fast lookup is inherently supported on message offset or message timestamp. Lookup by a message key is not direct since the same key may appear at different offsets.               |
 | **Search Behavior**         | A key/index scan quickly returns the relevant record(s) due to efficient indexing structures.                                                                      | Searching for a key without knowing the exact offset requires scanning through a partition, as the key might occur in multiple locations across partitions.                        |
+
+## [Main Concepts and Terminology](https://kafka.apache.org/intro#intro_concepts_and_terms)
+
+1. Events被分類為Topic持續性的儲存
+2. data消費後不會刪除，可自訂expired time
+3. 數據量上升，性能恆定，所以長時間儲存是完全可以的
+4. 每個 Topic 都會被拆分成多個 Partition，而這些 Partition 可以分佈在不同的 Broker 上 -> 客戶端需要讀取或寫入數據時，可以同時訪問多個 Broker，而不是集中在單一服務器上，從而達到負載均衡
+5. 相同Event key的events會依序被append到同一個partition，保證消費者以**與寫入事件相同的順序**讀取該partion的events
+6. 可執行複製，沒複製的情況下event只會被儲存到某一個partition
