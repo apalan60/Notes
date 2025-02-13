@@ -21,3 +21,34 @@
 4. 每個 Topic 都會被拆分成多個 Partition，而這些 Partition 可以分佈在不同的 Broker 上 -> 客戶端需要讀取或寫入數據時，可以同時訪問多個 Broker，而不是集中在單一服務器上，從而達到負載均衡
 5. 相同Event key的events會依序被append到同一個partition，保證消費者以**與寫入事件相同的順序**讀取該partion的events
 6. 可執行複製，沒複製的情況下event只會被儲存到某一個partition
+
+## Topic Description
+
+```bash
+/opt/kafka/bin $ ./kafka-topics.sh --describe --topic quickstart-events --bootstrap-server localhost:9092
+
+Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 1       ReplicationFactor: 1    Configs: segment.bytes=1073741824
+        Topic: quickstart-events        Partition: 0    Leader: 1       Replicas: 1     Isr: 1  Elr:    LastKnownElr:
+```
+- Topic Detail
+
+| Field             | Value                    | Description                                                      |
+|-------------------|--------------------------|------------------------------------------------------------------|
+| Topic             | quickstart-events        | Topic 名稱                                                       |
+| TopicId           | 7G3V-GPZQjyVmSsIyLgKrQ   | Topic 的唯一識別碼                                               |
+| PartitionCount    | 1                        | 分區數量                                                         |
+| ReplicationFactor | 1                        | 複製因子。代表只有一份副本（無備援）                              |
+| Configs           | segment.bytes=1073741824 | 配置項，設定每個 log segment 的最大尺寸（1GB）                     |
+
+- Partition Detail
+
+| Field        | Value             | Description                                                        |
+|--------------|-------------------|--------------------------------------------------------------------|
+| Topic        | quickstart-events | Partition 所屬的 Topic                      |
+| Partition    | 0                 | Partition 編號                                                     |
+| Leader       | 1                 | 該 partition 的 Leader broker 編號                                  |
+| Replicas     | [1]               | 存有該 partition 副本的 broker 列表（僅 broker 1）                     |
+| Isr          | [1]               | In-Sync Replicas，表示與 Leader 保持同步的 broker 列表（僅 broker 1）   |
+| Elr          |                   | End Log Replica                              |
+| LastKnownElr |                   | 上一次已知的 End Log Replica                 |
+
