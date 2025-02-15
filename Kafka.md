@@ -52,3 +52,10 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 | Elr          |                   | End Log Replica                              |
 | LastKnownElr |                   | 上一次已知的 End Log Replica                 |
 
+
+## [Kafka Stream Architecture](https://kafka.apache.org/31/documentation/streams/architecture)
+
+- Kafka 將messages區分成多個topic partition，進行*儲存*以及*傳輸*
+- Kafka Stream也會區分多個partition，並且會mapping到Kafka topic partition，進行資料處理
+- 在Kafka Stream裡的data record會mapping到Kafka裡的messages，兩者之間透過一個*Key*進行對應，也是因此才知道哪個topic要路由到哪個Stream partition
+
