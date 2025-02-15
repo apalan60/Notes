@@ -59,3 +59,19 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 - Kafka Stream也會區分多個partition，並且會mapping到Kafka topic partition，進行資料處理
 - 在Kafka Stream裡的data record會mapping到Kafka裡的messages，兩者之間透過一個*Key*進行對應，也是因此才知道哪個topic要路由到哪個Stream partition
 
+### [Stream Partitions and Tasks](https://kafka.apache.org/31/documentation/streams/architecture#streams_architecture_tasks)
+
+- kafka messages 會進行分區(partitioning)後儲存，根據這個topic partitions的數量，Kafka Stream 會建立對應數量的tasks。進行平行處理
+- 假設一個topic有5個partition，就會有5個stream tasks，接著分派給**最多**n個application instances 來運行處理流程（processor topology）
+- Kafka Streams 使用 [StreamsPartitionAssignor](https://github.com/apache/kafka/blob/trunk/streams/src/main/java/org/apache/kafka/streams/processor/internals/StreamsPartitionAssignor.java) 這個類別來分配 topic partitions 給tasks，以在多個instances的多個threads之間達到loadbalance以及讓狀態型任務（stateful tasks）維持穩定(sticky, 同個task就在同個thread / instance上執行完)
+
+### [Threading Model](https://kafka.apache.org/31/documentation/streams/architecture#streams_architecture_threads)
+
+- 增加更多stream thread / instances = 複製更多處理程序(topology)，來處理不同的partition
+- 每個stream thread之間沒有共享狀態，所以不會因為狀態共享導致性能下降
+- 每個thread處理*至少一個*Task
+
+- How to scale out?
+  - instances 增加，Kafka Streams就會自動處理這些instance之間如何分配topic partition，即應用程式在多個實例中運行時，Kafka Streams 會根據每個任務的需求，自動決定哪些 partition 由哪個任務處理
+  - 也可以動態擴縮 stream threads，Kafka Streams 會自動分配 partitions，確保每個運行中的執行緒都有 partition 可以處理，若某些執行緒失效，可以直接新增執行緒來取代它們，而不需要重啟整個客戶端
+
