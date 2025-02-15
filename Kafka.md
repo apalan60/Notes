@@ -75,3 +75,14 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
   - instances 增加，Kafka Streams就會自動處理這些instance之間如何分配topic partition，即應用程式在多個實例中運行時，Kafka Streams 會根據每個任務的需求，自動決定哪些 partition 由哪個任務處理
   - 也可以動態擴縮 stream threads，Kafka Streams 會自動分配 partitions，確保每個運行中的執行緒都有 partition 可以處理，若某些執行緒失效，可以直接新增執行緒來取代它們，而不需要重啟整個客戶端
 
+### [Local State Stores](https://kafka.apache.org/31/documentation/streams/architecture#streams_architecture_state)
+- 用於查詢stream process中，資料的中間狀態
+- 進行聚合（aggregations）、連接（joins）或窗口運算（windowed computations）等操作，需要在不同的資料進來之間保存某些中間結果。state stores 用來保存這些資料
+- 可即時查詢和容錯恢復
+
+### [Fault Tolerance](https://kafka.apache.org/31/documentation/streams/architecture#streams_architecture_recovery)
+- 進入kafka的數據在Application出問題並重啟後，仍可以繼續處理數據
+- fault-tolerance capability is offered by the Kafka comsumer client
+- 執行task的機器如果掛了，會自動在別的運行中的instance重新執行task
+- 每個local state store 都有維護一個複製的change log kafka topic 來追蹤狀態更新，並且這些log可以被壓縮清除。以防主無限增長。 故障重啟時，也會以此復原
+
