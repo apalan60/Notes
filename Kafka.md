@@ -89,8 +89,8 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 ## Kafka Connect
 
 - 導入plugin connect-file-3.9.0.jar後使用
-- 接著定義資料源(config/connect-file-source.properties)以及接收端(config/connect-file-sink.properties)
-- connect-standalone/distributed.properties 定義資料寫入的Topic
+- 定義資料源(config/connect-file-source.properties)，例如file location、寫入的topic等等，以及定義接收端(config/connect-file-sink.properties)
+- connect-standalone/distributed.properties: worker 配置檔，主要用來設定 Kafka Connect 的運行環境（例如連接 Kafka broker、offset 存儲的 topic、plugin 路徑、converter 等等）
 - 運行流程:
   - Kafka connect process 啟動 -> 從資料源讀取資料 -> produce to Topic ->  sink connector read messages from the topic -> sink connector write messages to the sink file
   - 運行中也可運行其他concumer同時消費這格topic的數據
