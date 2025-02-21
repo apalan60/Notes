@@ -86,3 +86,11 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 - 執行task的機器如果掛了，會自動在別的運行中的instance重新執行task
 - 每個local state store 都有維護一個複製的change log kafka topic 來追蹤狀態更新，並且這些log可以被壓縮清除。以防主無限增長。 故障重啟時，也會以此復原
 
+## Kafka Connect
+
+- 導入plugin connect-file-3.9.0.jar後使用
+- 接著定義資料源(config/connect-file-source.properties)以及接收端(config/connect-file-sink.properties)
+- connect-standalone/distributed.properties 定義資料寫入的Topic
+- 運行流程:
+  - Kafka connect process 啟動 -> 從資料源讀取資料 -> produce to Topic ->  sink connector read messages from the topic -> sink connector write messages to the sink file
+  - 運行中也可運行其他concumer同時消費這格topic的數據
