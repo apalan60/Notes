@@ -65,6 +65,12 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 - 假設一個topic有5個partition，就會有5個stream tasks，接著分派給**最多**n個application instances 來運行處理流程（processor topology）
 - Kafka Streams 使用 [StreamsPartitionAssignor](https://github.com/apache/kafka/blob/trunk/streams/src/main/java/org/apache/kafka/streams/processor/internals/StreamsPartitionAssignor.java) 這個類別來分配 topic partitions 給tasks，以在多個instances的多個threads之間達到loadbalance以及讓狀態型任務（stateful tasks）維持穩定(sticky, 同個task就在同個thread / instance上執行完)
 
+- 文件裡的範例說明了record如何在kafka stream裡被處理
+  傳入了一段"all streams lead to kafka"，每個字元和計數則放至KTable，**"被改變的的Record"**會被送到downstream，即KStream
+- 總結來說KTable像是資料表，KStream則是ChangeLog，抓下所有的Stream = 取得所有改變，所以可以回推整張表
+![image](https://github.com/user-attachments/assets/460c269b-d7ff-4c7a-90aa-086865afd780)
+<br/>*圖源: [kafka stream document](https://kafka.apache.org/39/documentation/streams/quickstart)*
+
 ### [Threading Model](https://kafka.apache.org/31/documentation/streams/architecture#streams_architecture_threads)
 
 - 增加更多stream thread / instances = 複製更多處理程序(topology)，來處理不同的partition
@@ -94,3 +100,4 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 - 運行流程:
   - Kafka connect process 啟動 -> 從資料源讀取資料 -> produce to Topic ->  sink connector read messages from the topic -> sink connector write messages to the sink file
   - 運行中也可運行其他concumer同時消費這格topic的數據
+
