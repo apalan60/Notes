@@ -103,16 +103,36 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
  
 ## Contribution Guide
 
+- PR
 ```mermaid
 flowchart LR
     A([Issue]) --> B{Minor?}
     B -- Yes --> C([PR])
     B -- No --> D([JIRA])
     D --> E{Same APIs?}
-    E -- Yes --> C
+    E -- Yes --> H(KIP)
     E -- No --> C
     C --> F{LGTM?}
     F -- Yes --> G([Commit])
     F -- No --> C
+```
+
+- KIP
+```mermaid
+flowchart LR
+    A([Idea & JIRA]) --> B([Draft & PoC])
+    B --> C([Discussion])
+    
+    C --> D{LGTM?}
+    D -- Yes --> E([Voting])
+    D -- No --> C
+    
+    %% 以下這條是虛線箭頭，表示「Discussion」到「Voting」的可選流程
+    C -.-> E
+    
+    E --> F{Accepted?}
+    F -- Yes --> G([PR])
+    F -- No --> C
+
 ```
 
