@@ -100,4 +100,19 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 - 運行流程:
   - Kafka connect process 啟動 -> 從資料源讀取資料 -> produce to Topic ->  sink connector read messages from the topic -> sink connector write messages to the sink file
   - 運行中也可運行其他concumer同時消費這格topic的數據
+ 
+## Contribution Guide
+
+```mermaid
+flowchart LR
+    A([Issue]) --> B{Minor?}
+    B -- Yes --> C([PR])
+    B -- No --> D([JIRA])
+    D --> E{Same APIs?}
+    E -- Yes --> C
+    E -- No --> C
+    C --> F{LGTM?}
+    F -- Yes --> G([Commit])
+    F -- No --> C
+```
 
