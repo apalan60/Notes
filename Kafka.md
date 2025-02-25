@@ -60,7 +60,8 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 > 
 > "Think of a **Stream** as a continous real-time flow of records in key-value paris format，you don't need to explicitly new reocords, just recevie them"
 
-- Kafka 將messages區分成多個topic partition，進行*儲存*以及*傳輸*
+- Kafka 將messages區分成多個topic partition，進行**儲存**以及**傳輸**
+- 另外在API也提供了stateful operations (e.g. counts,  aversges, sum, joins...etc)
 - Kafka Stream也會區分多個partition，並且會mapping到Kafka topic partition，進行資料處理
 - 在Kafka Stream裡的data record會mapping到Kafka裡的messages，兩者之間透過一個*Key*進行對應，也是因此才知道哪個topic要路由到哪個Stream partition
 
@@ -105,6 +106,43 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 - 運行流程:
   - Kafka connect process 啟動 -> 從資料源讀取資料 -> produce to Topic ->  sink connector read messages from the topic -> sink connector write messages to the sink file
   - 運行中也可運行其他concumer同時消費這格topic的數據
+
+## [Topic](https://developer.confluent.io/learn-more/kafka-on-the-go/topics/)
+- appenend-only logs，寫入後就再也不會改變
+- 各種events被分類儲存到到不同topic
+- 可複製並持久化儲存到各個nodes
+- topic數量沒有上限，取決於每個topic裡的parition數量，使用KRaft mode，數量可達百萬up
+
+- events會被以key-value pairs存入，通常key為null or ID (其他binary data也可以，但通常是這兩種)
+
+## [Partition](https://www.youtube.com/watch?v=y9BStKvVzSs)
+當大量的event寫入至topic，並同時被存取，該節點負載會變很重
+
+kafka高度scalable的原因在於可以透過schema design，把資料分到不同的artition
+比起建立一個giant node，中小型的節點更加經濟實惠一些
+儘管topic可以分散到多節點來管理，但通常不會讓topic過大，取得代之的是將topic partition
+![image](https://github.com/user-attachments/assets/6810c16f-b889-40dc-a081-51ed9ba6ff34)
+
+Topic是log，而partition就是將這個log分散成多個logs
+給個partition可以佈署到cluster的單一節點上，所以所有的讀寫操作可以平行分配到這些節點上
+
+### messages如何被分配到各個partition
+
+如果進入topic的messages
+1. 沒有key，則以round robin均勻分配到各個partition，每個messages的排序就是時間
+![image](https://github.com/user-attachments/assets/810cfbd2-aea3-45a1-813f-1e4f5057e312)
+
+2. 有key，通常會把key進行hash，用這個數值除以分區的數量，計算餘數(mod)，得出的數值就是partition number
+>  *Note: 所以有key的情況下，kafka保證相同的key，**會被放到同一個aprtition，並且是有順序性的***
+>  e.g. key 為customerID，每個customer相關的message可以在每個partition裡循序找到
+>  某個key可能會出現量特多的情況，但通常kafka可以應付這些風險，所以還在可管控範圍內
+![Uploading image.png…]()
+
+
+
+
+
+[How to Choose the Number of Topics/Partitions in a Kafka Cluster? By Jun Rao](https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster/?session_ref=direct&_gl=1*1ofcog2*_gcl_aw*R0NMLjE3Mzk1OTczMjIuQ2p3S0NBaUE4THU5QmhBOEVpd0FhZzE2YnozRFF0S0V3a2VlY2NvMy1pNE5vSlViUWtYUERnTHhUTldmVzRpWllkSEJCZXdaM0gza01Sb0NUWm9RQXZEX0J3RQ..*_gcl_au*Njk2NTM5NzQ3LjE3Mzg4ODgxMTY.*_ga*ODgzNzU4NTY0LjE3Mzg4ODgxMTY.*_ga_D2D3EGKSGD*MTc0MDQ5MjMyOC4xNC4xLjE3NDA0OTM3NjIuNjAuMC4w&_ga=2.131869836.2009217855.1740492328-883758564.1738888116&_gac=1.183067476.1739597321.CjwKCAiA8Lu9BhA8EiwAag16bz3DQtKEwkeecco3-i4NoJUbQkXPDgLxTNWfW4iZYdHBBewZ3H3kMRoCTZoQAvD_BwE)
 
 ## Contribution Guide
 
