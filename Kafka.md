@@ -55,6 +55,11 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 
 ## [Kafka Stream Architecture](https://kafka.apache.org/31/documentation/streams/architecture)
 
+> Steams 是什麼?
+> 這段[影片](https://youtu.be/QkdkLdMBuL0?si=uvPH6tRqkLmG2329)提出了一段易懂的解釋
+> 
+> "Think of a **Stream** as a continous real-time flow of records in key-value paris format，you don't need to explicitly new reocords, just recevie them"
+
 - Kafka 將messages區分成多個topic partition，進行*儲存*以及*傳輸*
 - Kafka Stream也會區分多個partition，並且會mapping到Kafka topic partition，進行資料處理
 - 在Kafka Stream裡的data record會mapping到Kafka裡的messages，兩者之間透過一個*Key*進行對應，也是因此才知道哪個topic要路由到哪個Stream partition
@@ -100,7 +105,7 @@ Topic: quickstart-events        TopicId: 7G3V-GPZQjyVmSsIyLgKrQ PartitionCount: 
 - 運行流程:
   - Kafka connect process 啟動 -> 從資料源讀取資料 -> produce to Topic ->  sink connector read messages from the topic -> sink connector write messages to the sink file
   - 運行中也可運行其他concumer同時消費這格topic的數據
- 
+
 ## Contribution Guide
 
 - PR
