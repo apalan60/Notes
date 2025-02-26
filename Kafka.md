@@ -136,13 +136,16 @@ Topic是log，而partition就是將這個log分散成多個logs
 >  *Note: 所以有key的情況下，kafka保證相同的key，**會被放到同一個aprtition，並且是有順序性的***
 >  e.g. key 為customerID，每個customer相關的message可以在每個partition裡循序找到
 >  某個key可能會出現量特多的情況，但通常kafka可以應付這些風險，所以還在可管控範圍內
-![Uploading image.png…]()
-
-
-
 
 
 [How to Choose the Number of Topics/Partitions in a Kafka Cluster? By Jun Rao](https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster/?session_ref=direct&_gl=1*1ofcog2*_gcl_aw*R0NMLjE3Mzk1OTczMjIuQ2p3S0NBaUE4THU5QmhBOEVpd0FhZzE2YnozRFF0S0V3a2VlY2NvMy1pNE5vSlViUWtYUERnTHhUTldmVzRpWllkSEJCZXdaM0gza01Sb0NUWm9RQXZEX0J3RQ..*_gcl_au*Njk2NTM5NzQ3LjE3Mzg4ODgxMTY.*_ga*ODgzNzU4NTY0LjE3Mzg4ODgxMTY.*_ga_D2D3EGKSGD*MTc0MDQ5MjMyOC4xNC4xLjE3NDA0OTM3NjIuNjAuMC4w&_ga=2.131869836.2009217855.1740492328-883758564.1738888116&_gac=1.183067476.1739597321.CjwKCAiA8Lu9BhA8EiwAag16bz3DQtKEwkeecco3-i4NoJUbQkXPDgLxTNWfW4iZYdHBBewZ3H3kMRoCTZoQAvD_BwE)
+
+## [Consumer group](https://developer.confluent.io/learn-more/kafka-on-the-go/consumer-groups/)
+
+當 producer 可以把大量資料分散式地傳遞到topic partition對應的不同節點，單一個consumer 也無法消耗這麼大量的資料
+所以也可以使用多個nodes來分散式消費這些messages，而他們統一有一個group.Id，kafka broker會自動化的對這個group進行load balance，新的node出現，則分流給新的node; 反之。node消失，則把剩餘流量轉至既有的node
+
+- 讓consumers 平行處理同一個subset of topic partitions
 
 ## Contribution Guide
 
