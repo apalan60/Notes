@@ -147,6 +147,14 @@ Topic是log，而partition就是將這個log分散成多個logs
 
 - 讓consumers 平行處理同一個subset of topic partitions
 
+## Broker
+
+- Kafka 物理儲存數據的Server
+- topic partition messages 分散式儲存在各個broker
+- 每個partition 會有一個leader broker，其他的會replicate data，故有fault tolerance
+
+---
+
 ## Contribution Guide
 
 - PR
