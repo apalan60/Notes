@@ -108,7 +108,7 @@ e.g.
 java -jar build/libs/GradleBuildJarPractice-1.0-SNAPSHOT-all.jar
 ```
 
-試著比較兩份jar，uber jar 明顯大許多，因為裡面包含了依賴項的所有java file
+試著比較兩份jar，uber jar 明顯大許多，因為裡面包含了依賴項的所有java files
 ```
 GradleBuildJarPractice/build/libs on  master [!] via ☕ v21.0.6 …
 ➜ ls -l
