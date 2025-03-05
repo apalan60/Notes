@@ -124,3 +124,27 @@ GradleBuildJarPractice/build/libs on  master [!] …
 ➜ java -jar GradleBuildJarPratice-1.0-SNAPSHOT-all.jar
 {"car":null,"name":"John","age":30}
 ```
+
+
+## [Gradle for beginners](https://youtu.be/-dtcEMLNmn0?si=C_WyaAC7GtfxLRT0)
+
+### 在有其他dependency的情況下，也可以分別針對每個Dependency (jar)在compile 和 runtime 分別處理
+
+例如先把所有依賴的jar pull到local, 在指定路徑compile 成binary
+runtime 時也明確指定dependencty被編譯好後的binary
+```bash
+GradleBuildJarPractice on  master [!?] is 📦 1.0-SNAPSHOT …
+➜ javac -cp ".:build/libs/GradleBuildJarPratice-1.0-SNAPSHOT-all.jar" src/main/java/com/Init.java 
+
+GradleBuildJarPractice on  master [!?] …
+➜ pwd 
+/mnt/c/Users/User/IdeaProjects/GradleBuildJarPractice
+
+GradleBuildJarPractice on  master [!?] is 📦 1.0-SNAPSHOT …
+➜ java -cp ".:build/libs/GradleBuildJarPratice-1.0-SNAPSHOT-all.jar:src/main/java" com.Init
+
+{"car":null,"name":"John","age":30}
+
+```
+
+> *手動在command指定這些Dependency很麻煩且容易出錯，這也是為什麼需要Gradle等build tools的原因*
