@@ -148,3 +148,15 @@ GradleBuildJarPractice on  master [!?] is 📦 1.0-SNAPSHOT …
 ```
 
 > *手動在command指定這些Dependency很麻煩且容易出錯，這也是為什麼需要Gradle等build tools的原因*
+
+
+### 如果大家都需要透過gradle來compile專案，如何確保大家的gradle版本一致，而不會衍生出版本不同導致的相關問題?
+使用gradle wrapper
+
+使用指令 ```gradle```跟 ```gradlew```意義不同
+
+gradle：
+指向系統上全域安裝的 Gradle。如果在系統中已安裝 Gradle，直接使用 gradle 就能執行相關命令。不過，不同專案可能需要不同的 Gradle 版本，就會依賴系統中安裝的版本
+
+./gradlew（Gradle Wrapper）：
+與專案一起版控的腳本，可以自動下載並使用專案所指定的 Gradle 版本，確保所有開發人員在相同版本下執行建置任務，不會因系統上不同的 Gradle
