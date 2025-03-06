@@ -155,6 +155,14 @@ Topic是log，而partition就是將這個log分散成多個logs
 
 ---
 
+## kafka v.s. RabbitMQ
+
+- kafka 可以配置retention policy 使可以持久化儲存 / RabbitMQ 在message 在comsumption後被移除
+- 因為kafka有持久化儲存，comsumers 可以"重複讀取"，並且有較高的throughput
+- [介紹](https://youtu.be/QkdkLdMBuL0?si=ylqp_wYwcZ3qEpTK)中的一個很好的比喻是，kafka 像是隨點即看的Netflix(Streaming)，也可以重任意點重新播放，
+  而其他simple message broker像是TV，需要在撥放時同時consume，並且無法持久保存重放(雖然Rabbit MQ有Dead Letter retry的機制，但本質上較不強調persist)
+
+
 ## Contribution Guide
 
 - PR
